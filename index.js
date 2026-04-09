@@ -64,7 +64,26 @@ ujJatekGomb.addEventListener("click", () => {
         return;
     }
 
-    const jelenMeret = parseInt(inputMeret.value);
+    let jelenMeret = parseInt(inputMeret.value);
+
+    // nem szam, tul nagy, tul kicsi
+    if (isNaN(jelenMeret)) {
+        jelenMeret = 3;
+    }
+
+    if (jelenMeret > 15) {
+        alert("A lámpák nem hisznek neked, csak 225 jött el!");
+        jelenMeret = 15;
+    }
+
+    if (jelenMeret < 3) {
+        jelenMeret = 3;
+    }
+
+    inputMeret.value = jelenMeret;
+
+    //CSAK 3-15!!!
+    /*jelenMeret = Math.max(3, Math.min(jelenMeret, 15));*/
 
     const lampaLista = [];
     for (let i = 0; i < jelenMeret * jelenMeret; i++) {
