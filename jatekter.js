@@ -9,9 +9,17 @@ export default class Jatekter{
         this.lampak = [];
 
         this.jatekban = true;
-
+        this.kapcsoltLampaSzam = 0; //osszes kapcsolt lampa szama
+        
         this.szuloElem.innerHTML = "";
         this.megjelenit(kezdoAllapot);
+
+        this.lekapcsoltLampaSzam = this.lampak.filter(l => !l.lekapcsolva()).length; //lekapcsolt lampak szama
+
+        const SzamolElem = document.querySelector("#szamol");
+        if (SzamolElem) {
+            SzamolElem.textContent = `Lampák kapcsolva: 0, Lampák lekapcsolva: ${this.lekapcsoltLampaSzam}`;
+        }
 
         /*const maxSzelesseg = window.innerWidth * 0.9; //90% viewport
         const maxMagassag = window.innerHeight * 0.7; //70% viewport
@@ -64,14 +72,23 @@ export default class Jatekter{
             return;
         }
 
+        if (!this.jatekban) return;
+
         const index = event.detail;
         if (!this.lampak[index]) return;
 
         this.lampak[index].kapcsol();
+        this.kapcsoltLampaSzam++;
 
         const sz = this.szomszedok(index);
         sz.forEach(i => {if (this.lampak[i]) this.lampak[i].kapcsol();
         });
+
+        this.lekapcsoltLampaSzam = this.lampak.filter(l => l.lekapcsolva()).length;
+        const szamolElem = document.querySelector("#szamol");
+        if (szamolElem) {
+            szamolElem.textContent = `Lampák kapcsolva: ${this.kapcsoltLampaSzam}, Lampák lekapcsolva: ${this.lekapcsoltLampaSzam}`;
+        }
 
         if (this.lampak.every(lampak => lampak.lekapcsolva())) {
             setTimeout(() => {
